@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Orbitum Publisher</title>
+  <style>
+    body { background:#0b0c0d; color:white; font-family:sans-serif; padding:40px }
+    input,textarea { width:100%; background:#111; border:1px solid #333; padding:10px; color:white; margin-bottom:10px }
+    button { background:#9FE870; color:black; border:none; padding:12px; cursor:pointer; width:100% }
+  </style>
+</head>
+<body>
+<h2>Orbitum Publisher</h2>
+<input id="chat_id" placeholder="@channel or -100..." />
+<textarea id="text" rows="10"></textarea>
+<button onclick="send()">Send</button>
+<script>
+async function send(){
+ const chat_id=document.getElementById('chat_id').value;
+ const text=document.getElementById('text').value;
+ const res=await fetch('/send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id,text})});
+ const data=await res.json();
+ console.log(data);
+ alert('sent');
+}
+</script>
+</body>
+</html>
