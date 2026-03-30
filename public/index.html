@@ -18,7 +18,7 @@
 async function send(){
  const chat_id=document.getElementById('chat_id').value;
  const text=document.getElementById('text').value;
- const res=await fetch('/send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id,text})});
+ const res=await fetch('/api/send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id,text})});
  const data=await res.json();
  console.log(data);
  alert('sent');
