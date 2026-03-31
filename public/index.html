@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,615 +7,618 @@
   <style>
     :root {
       --bg: #070809;
-      --panel: #0d0f10;
-      --panel-2: #111315;
-      --panel-3: #090b0c;
+      --panel: #0f1113;
+      --panel-2: #121518;
+      --input: #0a0c0e;
       --border: rgba(255,255,255,0.08);
-      --border-strong: rgba(159,232,112,0.24);
+      --muted: rgba(255,255,255,0.46);
       --text: rgba(255,255,255,0.92);
-      --muted: rgba(255,255,255,0.50);
-      --soft: rgba(255,255,255,0.34);
       --accent: #9FE870;
-      --accent-2: #b9f592;
-      --accent-ink: #081005;
-      --radius-lg: 28px;
-      --radius-md: 22px;
+      --accent-ink: #0a1207;
+      --radius: 24px;
       --radius-sm: 16px;
       --radius-pill: 999px;
-      --shadow: 0 24px 80px rgba(0,0,0,0.28);
+      --shadow: 0 26px 90px rgba(0,0,0,0.28);
     }
 
     * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
     body { min-height: 100vh; }
     button, input, textarea, select { font: inherit; }
     button { cursor: pointer; }
 
     .app {
-      max-width: 1380px;
+      max-width: 1240px;
       margin: 0 auto;
       padding: 18px;
     }
 
     .shell {
       border: 1px solid var(--border);
-      background: var(--panel);
-      border-radius: var(--radius-lg);
+      background: rgba(10,12,14,0.9);
+      border-radius: 30px;
       overflow: hidden;
       box-shadow: var(--shadow);
       min-height: calc(100vh - 36px);
-      display: grid;
-      grid-template-columns: 290px minmax(0,1fr);
     }
 
-    .sidebar {
-      background: #0a0c0d;
-      border-right: 1px solid var(--border);
-      padding: 18px;
+    .topbar {
       display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
-    .badge {
-      display: inline-flex;
       align-items: center;
-      gap: 8px;
-      border: 1px solid var(--border-strong);
-      background: rgba(159,232,112,0.08);
-      color: var(--accent-2);
-      border-radius: var(--radius-pill);
-      padding: 6px 10px;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.01);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(159,232,112,0.12);
+      border: 1px solid rgba(159,232,112,0.2);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .eyebrow {
       font-size: 10px;
-      letter-spacing: 0.18em;
+      letter-spacing: .18em;
       text-transform: uppercase;
-    }
-
-    .title {
-      font-size: 19px;
-      font-weight: 650;
-      letter-spacing: -0.03em;
-      margin: 0;
-    }
-
-    .muted {
-      font-size: 12px;
-      line-height: 1.6;
       color: var(--muted);
     }
 
-    .section-label {
-      font-size: 10px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--soft);
-      margin-bottom: 10px;
+    .brand-title {
+      font-size: 18px;
+      letter-spacing: -0.03em;
+      font-weight: 650;
+      margin-top: 2px;
     }
 
-    .mode-grid,
-    .dest-list,
-    .template-list,
-    .helper-list,
-    .quick-grid,
-    .recent-list,
-    .top-actions,
-    .metric-grid {
-      display: grid;
+    .top-actions {
+      display: flex;
+      align-items: center;
       gap: 10px;
+      flex-wrap: wrap;
     }
 
-    .mode-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
-    .quick-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
-    .metric-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
-
-    .panel,
-    .button,
-    .input,
-    .textarea,
-    .select,
-    .destination,
-    .template,
-    .helper,
-    .recent-item,
-    .metric,
-    .preview-card,
-    .preview-box {
+    .btn {
       border: 1px solid var(--border);
-      background: var(--panel-2);
-      border-radius: var(--radius-md);
-    }
-
-    .panel { padding: 14px; }
-
-    .button {
-      border-radius: var(--radius-sm);
-      background: var(--panel-3);
-      color: rgba(255,255,255,0.78);
-      padding: 10px 12px;
+      background: var(--panel);
+      color: rgba(255,255,255,0.82);
+      border-radius: var(--radius-pill);
+      padding: 10px 14px;
       font-size: 12px;
-      transition: border-color .15s ease, background .15s ease, color .15s ease, opacity .15s ease;
+      transition: .15s ease;
     }
 
-    .button:hover,
-    .destination:hover,
-    .template:hover,
-    .helper:hover {
-      border-color: rgba(255,255,255,0.16);
-      color: #fff;
-    }
+    .btn:hover { border-color: rgba(255,255,255,0.16); color: #fff; }
 
-    .button.active,
-    .destination.active {
-      border-color: var(--border-strong);
-      background: rgba(159,232,112,0.10);
-      color: #e2f9cf;
-    }
-
-    .button.primary {
+    .btn.primary {
       background: var(--accent);
       color: var(--accent-ink);
-      border-color: rgba(159,232,112,0.18);
+      border-color: rgba(159,232,112,0.22);
       font-weight: 650;
     }
 
-    .button.primary:hover { opacity: 0.92; }
-
-    .field { display: grid; gap: 6px; }
-
-    .label {
-      font-size: 11px;
-      color: rgba(255,255,255,0.56);
+    .layout {
+      display: grid;
+      grid-template-columns: 290px minmax(0,1fr);
+      min-height: calc(100vh - 112px);
     }
 
+    .sidebar {
+      border-right: 1px solid var(--border);
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+      background: rgba(255,255,255,0.01);
+    }
+
+    .search,
     .input,
     .textarea,
     .select {
       width: 100%;
-      background: var(--panel-3);
-      color: rgba(255,255,255,0.86);
+      border: 1px solid var(--border);
+      background: var(--input);
+      color: var(--text);
+      border-radius: 16px;
       padding: 12px 13px;
       outline: none;
+      font-size: 12px;
     }
 
+    .search::placeholder,
     .input::placeholder,
     .textarea::placeholder { color: rgba(255,255,255,0.22); }
-    .textarea { min-height: 320px; resize: vertical; line-height: 1.7; font-size: 12px; }
-    .input, .select { font-size: 12px; }
 
-    .destination,
-    .template,
-    .helper,
-    .recent-item,
-    .metric {
-      padding: 12px;
+    .dialog-list { display: grid; gap: 8px; }
+
+    .dialog {
+      width: 100%;
       text-align: left;
-      transition: border-color .15s ease, background .15s ease;
+      padding: 12px;
+      border-radius: 18px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      color: inherit;
+      transition: .15s ease;
     }
 
-    .destination-name,
-    .recent-name,
-    .metric-value {
+    .dialog.active {
+      border-color: rgba(159,232,112,0.24);
+      background: rgba(159,232,112,0.08);
+    }
+
+    .dialog-name {
       font-size: 12px;
-      color: rgba(255,255,255,0.90);
       font-weight: 600;
+      color: rgba(255,255,255,0.92);
     }
 
-    .destination-meta,
-    .recent-meta,
-    .metric-meta {
+    .dialog-meta {
+      margin-top: 4px;
       font-size: 10px;
       color: rgba(255,255,255,0.38);
-      margin-top: 4px;
     }
 
-    .main {
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
+    .workspace {
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+      align-content: start;
     }
 
-    .topbar {
-      padding: 18px 22px;
-      border-bottom: 1px solid var(--border);
+    .hero {
       display: flex;
-      gap: 16px;
       align-items: flex-start;
       justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    }
+
+    .hero h1 {
+      margin: 4px 0 0;
+      font-size: 28px;
+      letter-spacing: -0.04em;
+      line-height: 1.02;
+    }
+
+    .hero p {
+      margin: 10px 0 0;
+      max-width: 740px;
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
-    .top-title {
-      margin: 0;
-      font-size: 25px;
-      letter-spacing: -0.04em;
-      font-weight: 680;
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      background: var(--panel-2);
+      padding: 16px;
     }
 
-    .top-actions {
-      grid-auto-flow: column;
-      align-items: center;
-    }
-
-    .content {
-      padding: 18px 22px 22px;
+    .grid {
       display: grid;
-      grid-template-columns: minmax(0,1fr) 360px;
-      gap: 18px;
+      gap: 14px;
+      grid-template-columns: 1.1fr .9fr;
     }
 
-    .stack { display: grid; gap: 18px; }
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: 17px;
+      letter-spacing: -0.03em;
+      font-weight: 620;
+    }
+
+    .section-sub {
+      font-size: 10px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    .row-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .field { display: grid; gap: 6px; }
+    .label { font-size: 11px; color: rgba(255,255,255,0.58); }
 
     .toolbar {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      margin-top: 2px;
+      margin-bottom: 12px;
     }
 
-    .mini-btn {
+    .chip {
       border: 1px solid var(--border);
-      background: var(--panel-3);
+      background: var(--input);
       color: rgba(255,255,255,0.76);
-      border-radius: var(--radius-pill);
+      border-radius: 999px;
       padding: 7px 11px;
       font-size: 11px;
     }
 
-    .mini-btn:hover {
-      border-color: var(--border-strong);
-      color: #fff;
+    .chip:hover { border-color: rgba(159,232,112,0.22); color: #fff; }
+
+    .textarea {
+      min-height: 360px;
+      resize: vertical;
+      line-height: 1.72;
     }
 
-    .form-grid {
+    .mini-stack { display: grid; gap: 10px; }
+
+    .mini-btn {
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--border);
+      background: var(--input);
+      color: rgba(255,255,255,0.74);
+      border-radius: 16px;
+      padding: 11px 12px;
+      font-size: 12px;
+    }
+
+    .mini-btn:hover { border-color: rgba(255,255,255,0.16); color: #fff; }
+
+    .preview {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0,1fr));
-      gap: 14px;
+      gap: 12px;
     }
-
-    .editor-grid {
-      display: grid;
-      grid-template-columns: minmax(0,1fr) 240px;
-      gap: 14px;
-      margin-top: 14px;
-    }
-
-    .preview-card { padding: 16px; }
 
     .preview-box {
-      background: #0a0c0d;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: var(--input);
       padding: 14px;
-      margin-top: 14px;
     }
 
-    .preview-head {
+    .preview-top {
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .avatar {
+    .preview-avatar {
       width: 38px;
       height: 38px;
       border-radius: 999px;
-      border: 1px solid rgba(159,232,112,0.16);
+      display: grid;
+      place-items: center;
       background: rgba(159,232,112,0.10);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--accent-2);
-      font-size: 14px;
+      border: 1px solid rgba(159,232,112,0.16);
+      color: var(--accent);
       font-weight: 700;
+      font-size: 14px;
     }
 
     .preview-message {
       margin-top: 14px;
       border-radius: 18px;
-      background: var(--panel-2);
+      background: rgba(255,255,255,0.03);
       padding: 14px;
       font-size: 12px;
-      line-height: 1.7;
-      color: rgba(255,255,255,0.82);
+      line-height: 1.72;
+      color: rgba(255,255,255,0.84);
       white-space: pre-wrap;
       word-break: break-word;
     }
 
-    .preview-media {
-      margin-top: 12px;
-      height: 148px;
-      border-radius: 18px;
-      border: 1px dashed var(--border);
-      background: rgba(255,255,255,0.02);
-      display: grid;
-      place-items: center;
-      color: rgba(255,255,255,0.28);
-      font-size: 11px;
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      border: 1px solid rgba(159,232,112,0.22);
+      background: rgba(10,12,14,0.96);
+      color: rgba(255,255,255,0.92);
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-size: 12px;
+      box-shadow: var(--shadow);
+      display: none;
+      z-index: 50;
     }
 
-    .actions-row {
-      margin-top: 12px;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: 8px;
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.58);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 40;
     }
 
-    .footer-actions {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: 8px;
-      margin-top: 14px;
+    .modal {
+      width: 100%;
+      max-width: 520px;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: #0d0f10;
+      box-shadow: var(--shadow);
+      padding: 18px;
     }
 
-    @media (max-width: 1180px) {
-      .shell { grid-template-columns: 1fr; }
+    .modal-grid { display: grid; gap: 10px; margin-top: 14px; }
+
+    .hint {
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    @media (max-width: 1080px) {
+      .layout { grid-template-columns: 1fr; }
       .sidebar { border-right: 0; border-bottom: 1px solid var(--border); }
-      .content { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 760px) {
       .app { padding: 10px; }
-      .topbar, .content, .sidebar { padding: 14px; }
-      .form-grid, .editor-grid, .metric-grid { grid-template-columns: 1fr; }
-      .top-actions { grid-auto-flow: row; width: 100%; }
-      .button.primary, .button { width: 100%; }
+      .topbar, .sidebar, .workspace { padding: 14px; }
+      .row-3 { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 24px; }
+      .hero-actions { width: 100%; }
+      .hero-actions .btn { width: 100%; }
     }
   </style>
 </head>
 <body>
   <div class="app">
     <div class="shell">
-      <aside class="sidebar">
-        <div>
-          <div class="badge">Telegram Publisher</div>
-          <h1 class="title" style="margin-top:12px;">Fast posting panel</h1>
-          <div class="muted" style="margin-top:6px;">Для канала и чата. Спокойный интерфейс без мусора и без стандартного перегруза Telegram.</div>
-        </div>
-
-        <div>
-          <div class="section-label">Mode</div>
-          <div class="mode-grid">
-            <button class="button active" id="mode-channel">Channel</button>
-            <button class="button" id="mode-chat">Chat</button>
-          </div>
-        </div>
-
-        <div class="panel">
-          <div class="section-label">Access</div>
-          <div class="field">
-            <label class="label">Bot token</label>
-            <input class="input" type="password" placeholder="Stored in Vercel env" disabled />
-          </div>
-          <div class="field" style="margin-top:10px;">
-            <label class="label">Default destination</label>
-            <input class="input" id="sidebar-destination" placeholder="@channel or -100..." />
-          </div>
-          <button class="button" style="margin-top:10px; width:100%;">Test connection</button>
-        </div>
-
-        <div>
-          <div class="section-label">Destinations</div>
-          <div class="dest-list" id="destinations"></div>
-        </div>
-
-        <div class="panel">
-          <div class="section-label">Templates</div>
-          <div class="template-list" id="templates"></div>
-        </div>
-      </aside>
-
-      <main class="main">
-        <div class="topbar">
+      <div class="topbar">
+        <div class="brand">
+          <div class="brand-mark">O</div>
           <div>
-            <div class="section-label">Composer</div>
-            <h2 class="top-title">Telegram post builder</h2>
-            <div class="muted" style="max-width:720px; margin-top:6px;">Собран под быструю работу: мелкий шрифт, lime green акценты, удобный редактор текста и чистое превью.</div>
-          </div>
-          <div class="top-actions">
-            <button class="button">Schedule</button>
-            <button class="button primary" id="publish-top">Publish now</button>
+            <div class="eyebrow">Orbitum · Telegram</div>
+            <div class="brand-title">Личный клиент публикаций</div>
           </div>
         </div>
+        <div class="top-actions">
+          <button class="btn" id="open-auth">Подключить аккаунт</button>
+          <button class="btn primary" id="send-top">Отправить</button>
+        </div>
+      </div>
 
-        <div class="content">
-          <section class="stack">
-            <div class="panel">
-              <div class="form-grid">
-                <div class="field">
-                  <label class="label">Post title</label>
-                  <input class="input" id="title" placeholder="Evening update" />
-                </div>
-                <div class="field">
-                  <label class="label">Destination</label>
-                  <input class="input" id="chat_id" placeholder="@channel or -100..." />
-                </div>
-                <div class="field">
-                  <label class="label">Parse mode</label>
-                  <select class="select" id="parse_mode">
-                    <option value="HTML">HTML</option>
-                    <option value="MarkdownV2">MarkdownV2</option>
-                    <option value="None">None</option>
-                  </select>
-                </div>
-              </div>
+      <div class="layout">
+        <aside class="sidebar">
+          <input class="search" id="dialog-search" placeholder="Поиск по диалогам" />
+
+          <div>
+            <div class="eyebrow" style="margin-bottom:10px;">Диалоги</div>
+            <div class="dialog-list" id="dialog-list"></div>
+          </div>
+        </aside>
+
+        <main class="workspace">
+          <section class="hero">
+            <div>
+              <div class="eyebrow">Упрощённый режим</div>
+              <h1>Пиши быстро. Выбирай диалог. Отправляй без мусора.</h1>
+              <p>Я упростил интерфейс: убрал лишние окна, убрал второстепенные блоки и оставил только то, что реально нужно для работы — выбор диалога, текст, форматирование, превью и отправка.</p>
             </div>
-
-            <div class="panel">
-              <div class="section-label">Text editor</div>
-              <div style="font-size:17px; font-weight:620; letter-spacing:-0.03em;">Message formatting</div>
-              <div class="toolbar" id="toolbar">
-                <button class="mini-btn" data-before="<b>" data-after="</b>">B</button>
-                <button class="mini-btn" data-before="<i>" data-after="</i>">I</button>
-                <button class="mini-btn" data-before="<u>" data-after="</u>">U</button>
-                <button class="mini-btn" data-before="<code>" data-after="</code>">Code</button>
-                <button class="mini-btn" data-before="<blockquote>" data-after="</blockquote>">Quote</button>
-                <button class="mini-btn" data-before='<a href="https://">' data-after="</a>">Link</button>
-                <button class="mini-btn" id="rewrite-btn">Rewrite</button>
-                <button class="mini-btn" id="shorten-btn">Shorten</button>
-                <button class="mini-btn" id="cleanup-btn">Clean up</button>
-              </div>
-
-              <div class="editor-grid">
-                <div>
-                  <textarea class="textarea" id="text" placeholder="Write your post here..."></textarea>
-                </div>
-                <div class="stack" style="gap:12px;">
-                  <div class="panel" style="padding:12px;">
-                    <div class="section-label">Helpers</div>
-                    <div class="helper-list">
-                      <button class="helper" id="insert-cta">Insert CTA block</button>
-                      <button class="helper" id="insert-disclaimer">Insert disclaimer</button>
-                      <button class="helper" id="insert-hashtags">Add hashtags</button>
-                    </div>
-                  </div>
-
-                  <div class="panel" style="padding:12px;">
-                    <div class="section-label">Media & extras</div>
-                    <div class="quick-grid">
-                      <button class="button">Media</button>
-                      <button class="button">Schedule</button>
-                    </div>
-                    <div class="field" style="margin-top:10px;">
-                      <label class="label">Buttons JSON</label>
-                      <textarea class="textarea" id="buttons_json" style="min-height:96px;" placeholder='[{"text":"Open","url":"https://..."}]'></textarea>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="metric-grid">
-              <div class="metric">
-                <div class="section-label">Status</div>
-                <div class="metric-value" id="metric-status">Channel post</div>
-                <div class="metric-meta">Current sending mode</div>
-              </div>
-              <div class="metric">
-                <div class="section-label">Destination</div>
-                <div class="metric-value" id="metric-destination">@orbitum_main</div>
-                <div class="metric-meta">Active target</div>
-              </div>
-              <div class="metric">
-                <div class="section-label">Parse</div>
-                <div class="metric-value" id="metric-parse">HTML</div>
-                <div class="metric-meta">Formatting mode</div>
-              </div>
+            <div class="hero-actions">
+              <button class="btn" id="use-template">Шаблон</button>
+              <button class="btn" id="clear-all">Очистить</button>
             </div>
           </section>
 
-          <aside class="stack" style="gap:18px;">
-            <div class="preview-card">
-              <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+          <section class="grid">
+            <div class="card">
+              <div class="section-head">
                 <div>
-                  <div class="section-label">Preview</div>
-                  <div style="font-size:17px; font-weight:620; letter-spacing:-0.03em;">Telegram look</div>
+                  <div class="section-sub">Редактор</div>
+                  <div class="section-title">Сообщение</div>
                 </div>
-                <div class="badge" style="padding:5px 9px;">Live</div>
               </div>
 
-              <div class="preview-box">
-                <div class="preview-head">
-                  <div class="avatar">O</div>
-                  <div>
-                    <div style="font-size:12px; font-weight:600; color:rgba(255,255,255,0.90);" id="preview-destination">Main Channel</div>
-                    <div style="font-size:10px; color:rgba(255,255,255,0.36);">today at 20:14</div>
+              <div class="row-3">
+                <div class="field">
+                  <label class="label">Заголовок</label>
+                  <input class="input" id="title" placeholder="Например: вечерний апдейт" />
+                </div>
+                <div class="field">
+                  <label class="label">Куда</label>
+                  <input class="input" id="chat_id" placeholder="@channel или -100..." />
+                </div>
+                <div class="field">
+                  <label class="label">Формат</label>
+                  <select class="select" id="parse_mode">
+                    <option value="HTML">HTML</option>
+                    <option value="MarkdownV2">MarkdownV2</option>
+                    <option value="None">Без форматирования</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="toolbar" id="toolbar">
+                <button class="chip" data-before="<b>" data-after="</b>">Жирный</button>
+                <button class="chip" data-before="<i>" data-after="</i>">Курсив</button>
+                <button class="chip" data-before="<u>" data-after="</u>">Подчеркнуть</button>
+                <button class="chip" data-before="<code>" data-after="</code>">Код</button>
+                <button class="chip" data-before="<blockquote>" data-after="</blockquote>">Цитата</button>
+                <button class="chip" data-before='<a href="https://">' data-after="</a>">Ссылка</button>
+              </div>
+
+              <textarea class="textarea" id="text" placeholder="Напиши текст сообщения..."></textarea>
+            </div>
+
+            <div class="mini-stack">
+              <div class="card">
+                <div class="section-sub">Быстрые действия</div>
+                <div class="section-title" style="margin-bottom:12px;">Инструменты</div>
+                <div class="mini-stack">
+                  <button class="mini-btn" id="insert-cta">Добавить CTA</button>
+                  <button class="mini-btn" id="insert-risk">Добавить риск-дисклеймер</button>
+                  <button class="mini-btn" id="insert-tags">Добавить хэштеги</button>
+                  <button class="mini-btn" id="cleanup">Почистить текст</button>
+                </div>
+              </div>
+
+              <div class="card preview">
+                <div>
+                  <div class="section-sub">Превью</div>
+                  <div class="section-title">Как это выглядит</div>
+                </div>
+
+                <div class="preview-box">
+                  <div class="preview-top">
+                    <div class="preview-avatar">O</div>
+                    <div>
+                      <div style="font-size:12px; font-weight:600;" id="preview-destination">Диалог</div>
+                      <div style="font-size:10px; color:rgba(255,255,255,0.36);">сейчас</div>
+                    </div>
                   </div>
+                  <div class="preview-message" id="preview-message"></div>
                 </div>
 
-                <div class="preview-message" id="preview-message"></div>
-                <div class="preview-media">Media preview</div>
-                <div class="actions-row">
-                  <button class="button">Open</button>
-                  <button class="button">Read more</button>
-                </div>
-              </div>
-
-              <div class="footer-actions">
-                <button class="button" id="test-render">Test render</button>
-                <button class="button primary" id="send-btn">Send</button>
+                <button class="btn primary" id="send-btn">Отправить сейчас</button>
               </div>
             </div>
-
-            <div class="panel">
-              <div class="section-label">Recent activity</div>
-              <div class="recent-list" id="recent-list"></div>
-            </div>
-          </aside>
-        </div>
-      </main>
+          </section>
+        </main>
+      </div>
     </div>
   </div>
 
+  <div class="modal-backdrop" id="auth-backdrop">
+    <div class="modal">
+      <div class="section-sub">Авторизация</div>
+      <div class="section-title">Подключение аккаунта Telegram</div>
+      <div class="hint">Это окно под вход через пользовательский Telegram API. Сейчас здесь готовый интерфейс авторизации и локальное сохранение данных, чтобы у тебя была точка входа под следующий этап подключения аккаунта.</div>
+      <div class="modal-grid">
+        <div class="field">
+          <label class="label">API ID</label>
+          <input class="input" id="auth-api-id" placeholder="Например: 123456" />
+        </div>
+        <div class="field">
+          <label class="label">API Hash</label>
+          <input class="input" id="auth-api-hash" placeholder="Вставь api_hash" />
+        </div>
+        <div class="field">
+          <label class="label">Номер телефона</label>
+          <input class="input" id="auth-phone" placeholder="+7..." />
+        </div>
+        <div class="field">
+          <label class="label">Код подтверждения</label>
+          <input class="input" id="auth-code" placeholder="Код из Telegram" />
+        </div>
+        <div class="field">
+          <label class="label">Пароль 2FA</label>
+          <input class="input" id="auth-password" placeholder="Если включен" />
+        </div>
+      </div>
+      <div class="top-actions" style="margin-top:14px; justify-content:flex-end;">
+        <button class="btn" id="close-auth">Закрыть</button>
+        <button class="btn primary" id="save-auth">Сохранить</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
   <script>
-    const destinations = [
-      { name: "Main Channel", id: "@orbitum_main", type: "channel" },
-      { name: "Private Chat", id: "-1001234567890", type: "chat" },
-      { name: "News Feed", id: "@orbitum_news", type: "channel" }
+    const dialogs = [
+      { name: 'Main Channel', id: '@orbitum_main', meta: 'канал' },
+      { name: 'Private Chat', id: '-1001234567890', meta: 'чат' },
+      { name: 'News Feed', id: '@orbitum_news', meta: 'канал' },
+      { name: 'Saved Messages', id: 'me', meta: 'избранное' }
     ];
 
-    const templates = [
-      "Signal / trade idea",
-      "Daily digest",
-      "Lesson / breakdown",
-      "Reply for chat"
-    ];
-
-    const recentItems = [
-      ["Main Channel", "Post sent · 18:32"],
-      ["Private Chat", "Reply sent · 17:48"],
-      ["News Feed", "Scheduled · tomorrow 09:00"]
-    ];
-
+    const dialogList = document.getElementById('dialog-list');
+    const dialogSearch = document.getElementById('dialog-search');
     const chatIdInput = document.getElementById('chat_id');
-    const sidebarDestination = document.getElementById('sidebar-destination');
-    const textInput = document.getElementById('text');
     const titleInput = document.getElementById('title');
+    const textInput = document.getElementById('text');
     const parseModeInput = document.getElementById('parse_mode');
     const previewMessage = document.getElementById('preview-message');
     const previewDestination = document.getElementById('preview-destination');
-    const metricDestination = document.getElementById('metric-destination');
-    const metricParse = document.getElementById('metric-parse');
-    const metricStatus = document.getElementById('metric-status');
-    const modeChannelBtn = document.getElementById('mode-channel');
-    const modeChatBtn = document.getElementById('mode-chat');
+    const toast = document.getElementById('toast');
 
-    let mode = 'channel';
+    const authBackdrop = document.getElementById('auth-backdrop');
+    const authFields = ['auth-api-id', 'auth-api-hash', 'auth-phone', 'auth-code', 'auth-password'];
 
-    function setMode(nextMode) {
-      mode = nextMode;
-      modeChannelBtn.classList.toggle('active', nextMode === 'channel');
-      modeChatBtn.classList.toggle('active', nextMode === 'chat');
-      metricStatus.textContent = nextMode === 'channel' ? 'Channel post' : 'Chat message';
+    function showToast(message) {
+      toast.textContent = message;
+      toast.style.display = 'block';
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => { toast.style.display = 'none'; }, 2600);
     }
 
-    modeChannelBtn.addEventListener('click', () => setMode('channel'));
-    modeChatBtn.addEventListener('click', () => setMode('chat'));
-
-    function syncDestination(value) {
-      chatIdInput.value = value;
-      sidebarDestination.value = value;
-      metricDestination.textContent = value || '—';
-
-      const found = destinations.find(item => item.id === value);
-      previewDestination.textContent = found ? found.name : (value || 'Destination');
-
-      document.querySelectorAll('.destination').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.id === value);
-      });
+    function renderDialogs(filter = '') {
+      dialogList.innerHTML = '';
+      dialogs
+        .filter(item => (item.name + ' ' + item.id + ' ' + item.meta).toLowerCase().includes(filter.toLowerCase()))
+        .forEach(item => {
+          const btn = document.createElement('button');
+          btn.className = 'dialog' + (chatIdInput.value === item.id ? ' active' : '');
+          btn.innerHTML = `<div class="dialog-name">${item.name}</div><div class="dialog-meta">${item.id} · ${item.meta}</div>`;
+          btn.addEventListener('click', () => {
+            chatIdInput.value = item.id;
+            updatePreview();
+            renderDialogs(dialogSearch.value);
+          });
+          dialogList.appendChild(btn);
+        });
     }
 
     function updatePreview() {
       const title = titleInput.value.trim();
       const text = textInput.value.trim();
-      previewMessage.textContent = (title ? title + "\n\n" : "") + (text || 'Your post preview will appear here...');
-      metricParse.textContent = parseModeInput.value;
-      metricDestination.textContent = chatIdInput.value || '—';
+      previewDestination.textContent = chatIdInput.value || 'Диалог';
+      previewMessage.textContent = (title ? title + '\n\n' : '') + (text || 'Превью сообщения появится здесь...');
     }
 
     function insertSnippet(before, after) {
       const start = textInput.selectionStart;
       const end = textInput.selectionEnd;
       const selected = textInput.value.slice(start, end) || 'text';
-      const replacement = before + selected + after;
-      textInput.setRangeText(replacement, start, end, 'end');
+      textInput.setRangeText(before + selected + after, start, end, 'end');
       textInput.focus();
       updatePreview();
     }
@@ -626,52 +629,39 @@
       insertSnippet(btn.dataset.before, btn.dataset.after);
     });
 
-    document.getElementById('rewrite-btn').addEventListener('click', () => {
-      if (!textInput.value.trim()) return;
-      textInput.value = textInput.value.trim() + '\n\nClear structure. Calm execution. No unnecessary rush.';
-      updatePreview();
-    });
-
-    document.getElementById('shorten-btn').addEventListener('click', () => {
-      const value = textInput.value.trim();
-      if (!value) return;
-      textInput.value = value.split('\n').slice(0, 4).join('\n');
-      updatePreview();
-    });
-
-    document.getElementById('cleanup-btn').addEventListener('click', () => {
-      textInput.value = textInput.value.replace(/\n{3,}/g, '\n\n').trim();
-      updatePreview();
-    });
-
     document.getElementById('insert-cta').addEventListener('click', () => {
-      textInput.value += '\n\n<b>Want more breakdowns?</b> Follow the channel and stay tuned.';
+      textInput.value += '\n\n<b>Хочешь больше разборов?</b> Следи за обновлениями.';
       updatePreview();
     });
 
-    document.getElementById('insert-disclaimer').addEventListener('click', () => {
-      textInput.value += '\n\n<i>Not financial advice. Manage risk carefully.</i>';
+    document.getElementById('insert-risk').addEventListener('click', () => {
+      textInput.value += '\n\n<i>Не финансовая рекомендация. Контролируй риск.</i>';
       updatePreview();
     });
 
-    document.getElementById('insert-hashtags').addEventListener('click', () => {
+    document.getElementById('insert-tags').addEventListener('click', () => {
       textInput.value += '\n\n#BTC #Trading #Orbitum';
       updatePreview();
     });
 
-    chatIdInput.addEventListener('input', (e) => {
-      syncDestination(e.target.value);
+    document.getElementById('cleanup').addEventListener('click', () => {
+      textInput.value = textInput.value.replace(/\n{3,}/g, '\n\n').trim();
       updatePreview();
     });
 
-    sidebarDestination.addEventListener('input', (e) => {
-      syncDestination(e.target.value);
+    document.getElementById('use-template').addEventListener('click', () => {
+      titleInput.value = 'Вечерний апдейт';
+      textInput.value = '<b>BTC update</b>\n\nСтруктура остаётся чистой. Жду подтверждение и не форсирую вход.';
       updatePreview();
+      showToast('Шаблон вставлен');
     });
 
-    titleInput.addEventListener('input', updatePreview);
-    textInput.addEventListener('input', updatePreview);
-    parseModeInput.addEventListener('change', updatePreview);
+    document.getElementById('clear-all').addEventListener('click', () => {
+      titleInput.value = '';
+      textInput.value = '';
+      updatePreview();
+      showToast('Редактор очищен');
+    });
 
     async function sendPost() {
       const chat_id = chatIdInput.value.trim();
@@ -680,83 +670,64 @@
       const parse_mode = parseModeInput.value;
 
       if (!chat_id || !bodyText) {
-        alert('Enter destination and message text.');
+        showToast('Заполни диалог и текст');
         return;
       }
 
       const text = title ? `<b>${title}</b>\n\n${bodyText}` : bodyText;
 
-      const res = await fetch('/api/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id, text, parse_mode })
-      });
+      try {
+        const res = await fetch('/api/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id, text, parse_mode })
+        });
 
-      const data = await res.json();
-      console.log(data);
-      alert(data.ok ? 'Sent successfully' : (data.description || 'Failed to send'));
+        const data = await res.json();
+        showToast(data.ok ? 'Сообщение отправлено' : (data.description || 'Ошибка отправки'));
+      } catch (error) {
+        showToast('Ошибка сети');
+      }
     }
 
     document.getElementById('send-btn').addEventListener('click', sendPost);
-    document.getElementById('publish-top').addEventListener('click', sendPost);
-    document.getElementById('test-render').addEventListener('click', updatePreview);
+    document.getElementById('send-top').addEventListener('click', sendPost);
 
-    const destinationsWrap = document.getElementById('destinations');
-    destinations.forEach(item => {
-      const btn = document.createElement('button');
-      btn.className = 'destination';
-      btn.dataset.id = item.id;
-      btn.innerHTML = `
-        <div class="destination-name">${item.name}</div>
-        <div class="destination-meta">${item.id} · ${item.type}</div>
-      `;
-      btn.addEventListener('click', () => {
-        syncDestination(item.id);
-        setMode(item.type);
-        updatePreview();
-      });
-      destinationsWrap.appendChild(btn);
+    document.getElementById('open-auth').addEventListener('click', () => {
+      authBackdrop.style.display = 'flex';
     });
 
-    const templatesWrap = document.getElementById('templates');
-    templates.forEach(item => {
-      const btn = document.createElement('button');
-      btn.className = 'template';
-      btn.textContent = item;
-      btn.addEventListener('click', () => {
-        if (item === 'Signal / trade idea') {
-          titleInput.value = 'Trade idea';
-          textInput.value = '<b>BTC idea</b>\n\nWatching the current reaction zone. Entry only on confirmation. Risk stays controlled.';
-        } else if (item === 'Daily digest') {
-          titleInput.value = 'Daily digest';
-          textInput.value = 'Main market moves for today:\n- BTC holding structure\n- ETH watching local range\n- Patience remains the edge';
-        } else if (item === 'Lesson / breakdown') {
-          titleInput.value = 'Quick lesson';
-          textInput.value = 'Today\'s note:\n\nThe cleaner the setup, the less you need to force the trade.';
-        } else {
-          titleInput.value = 'Reply';
-          textInput.value = 'Thanks for the question. I\'ll break this down clearly in the next post.';
-        }
-        updatePreview();
-      });
-      templatesWrap.appendChild(btn);
+    document.getElementById('close-auth').addEventListener('click', () => {
+      authBackdrop.style.display = 'none';
     });
 
-    const recentWrap = document.getElementById('recent-list');
-    recentItems.forEach(([name, meta]) => {
-      const item = document.createElement('div');
-      item.className = 'recent-item';
-      item.innerHTML = `
-        <div class="recent-name">${name}</div>
-        <div class="recent-meta">${meta}</div>
-      `;
-      recentWrap.appendChild(item);
+    document.getElementById('save-auth').addEventListener('click', () => {
+      const payload = {};
+      authFields.forEach(id => payload[id] = document.getElementById(id).value.trim());
+      localStorage.setItem('orbitum_auth_draft', JSON.stringify(payload));
+      authBackdrop.style.display = 'none';
+      showToast('Данные авторизации сохранены локально');
     });
 
-    syncDestination('@orbitum_main');
-    titleInput.value = 'Evening market update';
-    textInput.value = '<b>BTC update</b>\n\nStructure stays clean above the local range. Watching reaction from the current zone and waiting for confirmation before entry.\n\n— clear plan, no rush.';
+    dialogSearch.addEventListener('input', (e) => renderDialogs(e.target.value));
+    chatIdInput.addEventListener('input', () => { updatePreview(); renderDialogs(dialogSearch.value); });
+    titleInput.addEventListener('input', updatePreview);
+    textInput.addEventListener('input', updatePreview);
+    parseModeInput.addEventListener('change', updatePreview);
+
+    const savedAuth = localStorage.getItem('orbitum_auth_draft');
+    if (savedAuth) {
+      try {
+        const parsed = JSON.parse(savedAuth);
+        authFields.forEach(id => { if (parsed[id]) document.getElementById(id).value = parsed[id]; });
+      } catch {}
+    }
+
+    chatIdInput.value = '@orbitum_main';
+    titleInput.value = 'Вечерний апдейт';
+    textInput.value = '<b>BTC update</b>\n\nСтруктура остаётся чистой. Жду подтверждение и не форсирую вход.';
     updatePreview();
+    renderDialogs();
   </script>
 </body>
 </html>
